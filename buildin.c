@@ -1,34 +1,40 @@
 #include "shell.h"
 
 /**
- * my_exit - simple impl of exit.
- * @ptrs: structure containing all malloced memory
+ * exit_function - Function pointer for the exit function.
+ * @shell: Structure containing all malloced memory.
  */
-void my_exit(shell_t *ptrs)
+typedef void (*exit_function)(shell_t *shell);
+
+/**
+ * exit_default - Default implementation of the exit function.
+ * @shell: Structure containing all malloced memory.
+ */
+void exit_default(shell_t *shell)
 {
 	unsigned int i;
-	char *exit_str;
-	exit_str = ptrs->input_token[1];
-	if (exit_str != NULL || ptrs == NULL)
+	char *exit_str = shell->input_token[1];
+	if (exit_str != NULL || shell == NULL)
 	{
 		errno = 0;
 		for (i = 0; exit_str[i] != '\0'; i++)
 			errno = errno * 10 + (exit_str[i] - '0');
 	}
-	free_shell_t(ptrs);
+	free_shell_t(shell);
 	if (errno > 255)
 		errno %= 256;
 	exit(errno);
 }
+
 /**
-  * print_env - prints out the current environment
-  * @ptrs: structure containing all malloced memory
-  */
-void print_env(shell_t *ptrs)
+ * print_env - Prints out the current environment.
+ * @shell: Structure containing all malloced memory.
+ */
+void print_env(shell_t *shell)
 {
 	unsigned int i, k;
 	char newline = '\n';
-	(void)ptrs;
+	(void)shell;
 	if (environ == NULL)
 		return;
 	for (i = 0; environ[i] != NULL; i++)
@@ -41,4 +47,21 @@ void print_env(shell_t *ptrs)
 		}
 	}
 	errno = 0;
+}
+
+/**
+ * my_exit - Implementation of the exit function using function pointers and mal_mem.
+ * @shell: Structure containing all malloced memory.
+ */
+void my_exit(shell_t *shell)
+{
+	exit_function exit_fn = exit_default; // Default implementation
+	if (shell->input_token[1] != NULL)
+	{
+		if (strcmp(shell->input_token[1], "printenv") == 0)
+		{
+			exit_fn = print_env; // Use print_env function for "exit printenv"
+		}
+	}
+	exit_fn(shell); // Call the selected exit function
 }
