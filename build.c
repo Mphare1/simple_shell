@@ -24,11 +24,11 @@ void my_exit(shell_t *pts)
   * print_env - prints out the current environment
   * @ptrs: structure containing all malloced memory
   */
-void print_env(shell_t *ptrs)
+void print_env(shell_t *pts)
 {
     unsigned int i, k;
     char newline = '\n';
-    (void)ptrs;
+    (void)pts;
     if(environ == NULL)
         return;
     for(i = 0; environ[i] != NULL; i++)
