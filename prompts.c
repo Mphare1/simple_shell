@@ -1,75 +1,52 @@
 #include "main.h"
 
 /**
-
-  * free_shell_t - frees elements in shell_t struct
-
-  * @shell_ptrs: structure of malloced elements
-
-  */
-
+ * free_shell_t - Free memory allocated for the shell_t structure
+ * @shell_ptrs: Pointer to the shell_t structure
+ */
 void free_shell_t(shell_t *shell_ptrs)
-
 {
-
 	free(shell_ptrs->path_values);
-
 	free(shell_ptrs->input);
-
 	free(shell_ptrs->input_token);
-
 	free(shell_ptrs->modify_path);
-
 }
 
 
-
 /**
-
-  * p_commanderr - prints error for failed command
-
-  * @command: command that was submitted by user
-
-  * @filename: name of the file being run
-
-  */
-
+ * p_commanderr - Print error message for command not found
+ * @command: The command that was not found
+ * @filename: The filename associated with the command
+ */
 void p_commanderr(char *command, char *filename)
-
 {
-
-	char *error_message;
-
-	char *error = ": command not found\n";
-
-	size_t num_char, i;
-
+	char *err_msg;
+	char *err = ": command not found\n";
+	size_t num_char, i = 0;
 	(void)filename;
 
+	num_char = _strlen(err) + _strlen(command);
 
+	err_msg = malloc(sizeof(char) * (num_char + 1));
 
-	num_char = _strlen(error) + _strlen(command);
-
-	error_message = malloc(sizeof(char) * (++num_char));
-
-
-
-	i = 0;
+	if (err_msg == NULL)
+	{
+		/* Handle memory allocation error */
+		/* Print an error message or take appropriate action */
+		return;
+	}
 
 	while (*command != '\0')
+		err_msg[i++] = *command++;
 
-		error_message[i++] = *command++;
+	while (*err != '\0')
+		err_msg[i++] = *err++;
 
-	while (*error != '\0')
+	err_msg[i] = '\0';
 
-		error_message[i++] = *error++;
+	write(STDERR_FILENO, err_msg, num_char);
 
-	error_message[i] = '\0';
-
-	write(STDERR_FILENO, error_message, num_char);
-
-	free(error_message);
-
+	free(err_msg);
 }
 
 /**
