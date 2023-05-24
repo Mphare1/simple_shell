@@ -1,5 +1,6 @@
 #include "main.h"
 #include <string.h>
+#include <stdlib.h>
 
 /**
  * _strlen - Calculate the length of a string
@@ -55,25 +56,17 @@ char *_strdup(char *s)
  * Return: 0 if the strings are equal, non-zero otherwise
  */
 int _strcmp(char *str1, char *str2)
-
 {
-
-	while (*str1 != '\0' && *str2 != '\0')
-
+	for (; *str1 != '\0' && *str2 != '\0'; str1++, str2++)
 	{
-
-		if (*str1++ != *str2++)
-
+		if (*str1 != *str2)
 			return (1);
-
 	}
 
 	if (*str1 == '\0' && *str2 == '\0')
-
 		return (0);
 
 	return (1);
-
 }
 
 
