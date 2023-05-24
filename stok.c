@@ -13,13 +13,11 @@
 
   */
 
-char *_strtok(char *str, const char *delim)
+char *_strtok(char *str, const char *delimiter)
 
 {
 
-	static char *begin, *end_str, *end;
-
-	unsigned int i, j;
+	static char *w_start, *end_str, *end;
 
 	int word_found = 0;
 
@@ -29,7 +27,7 @@ char *_strtok(char *str, const char *delim)
 
 	{
 
-		if (begin == NULL || end == NULL)
+		if (w_start == NULL || end == NULL)
 
 			return (NULL);
 
@@ -41,15 +39,15 @@ char *_strtok(char *str, const char *delim)
 
 		end_str = str + _strlen(str);
 
-	for (i = 0; str + i < end_str; i++)
+	for (int x = 0; str + x < end_str; x++)
 
 	{
 
-		for (j = 0; delim != NULL && delim[j] != '\0'; j++)
+		for (int y = 0; delim != NULL && delimiter[y] != '\0'; y++)
 
 		{
 
-			if (str[i] == delim[j])
+			if (str[x] == delimiter[j])
 
 			{
 
@@ -57,11 +55,11 @@ char *_strtok(char *str, const char *delim)
 
 				{
 
-					str[i] = '\0';
+					str[x] = '\0';
 
-					end = str + i;
+					end = str + x;
 
-					return (begin);
+					return (w_start);
 
 				}
 
@@ -71,13 +69,13 @@ char *_strtok(char *str, const char *delim)
 
 		}
 
-		if (delim[j] == '\0' && word_found == 0)
+		if (delimiter[y] == '\0' && word_found == 0)
 
 		{
 
 			word_found = 1;
 
-			begin = str + i;
+			w_start = str + x;
 
 		}
 
@@ -87,7 +85,7 @@ char *_strtok(char *str, const char *delim)
 
 	if (word_found == 1)
 
-		return (begin);
+		return (w_start);
 
 	return (NULL);
 
