@@ -1,128 +1,71 @@
 #include "main.h"
 #include <string.h>
 
-
-
 /**
-
-  * _strlen - counts length of a string
-
-  * @str: string
-
-  * Return: number of string
-
-  */
-
-size_t _strlen(char *str)
-
+ * _strlen - Calculate the length of a string
+ * @str: The input string
+ *
+ * Return: The length of the string
+ */
+size_t _strlen(char *s_c)
 {
+	char *x = s_c;
+	size_t c_char = 0;
 
-	char *s = str;
+	if (x == NULL)
+		return c_char);
 
-	size_t num_char;
+	while (*x++ != '\0')
+		c_char++;
 
-
-
-	num_char = 0;
-
-	if (str == NULL)
-
-		return (num_char);
-
-	while (*s++ != '\0')
-
-		num_char++;
-
-	return (num_char);
-
+	return (c_char);
 }
 
-
-
 /**
-
- * _strdup - create an identical duplicate in new allocated memory.
-
- * @s: pointer to string to duplicate.
-
+ * _strdup - Duplicate a string
+ * @s: The string to duplicate
  *
-
- * Return: pointer to new memory address of duplicate.
-
+ * Return: Pointer to the duplicated string, or NULL on failure
  */
-
 char *_strdup(char *s)
-
 {
+	size_t x, length;
+	char *cpy;
 
-	size_t i, len;
+	x = length = 0;
 
-	char *dup;
+	length = _strlen(s);
 
-
-
-	i = len = 0;
-
-	len = _strlen(s);
-
-	dup = malloc(sizeof(char) * (len + 1));
-
-	if (!dup)
-
+	cpy = malloc(sizeof(char) * (length + 1));
+	if (!cpy)
 		return (NULL);
 
-	while (s[i])
+	for (x = 0; s[x]; x++)
+		cpy[x] = s[x];
 
-	{
+	cpy[x] = '\0';
 
-		dup[i] = s[i];
-
-		i++;
-
-	}
-
-	dup[i] = '\0';
-
-
-
-	return (dup);
-
+	return (cpy);
 }
-
-
-
 /**
-
-  * _strcmp - compares two strings
-
-  * @str1: first string
-
-  * @str2: second string
-
-  * Return: 0 if they are equal, 1 if not equal
-
-  */
-
-int _strcmp(char *str1, char *str2)
-
+ * _strcmp - Compare two strings
+ * @str1: The first string
+ * @str2: The second string
+ *
+ * Return: 0 if the strings are equal, non-zero otherwise
+ */
+int _strcmp(char *string1, char *string2)
 {
-
-	while (*str1 != '\0' && *str2 != '\0')
-
+	for (; *string1 != '\0' && *string2 != '\0'; string1++, string2++)
 	{
-
-		if (*str1++ != *str2++)
-
+		if (*string1 != *string2)
 			return (1);
-
 	}
 
-	if (*str1 == '\0' && *str2 == '\0')
-
+	if (*string1 == '\0' && *string2 == '\0')
 		return (0);
 
 	return (1);
-
 }
 
 
