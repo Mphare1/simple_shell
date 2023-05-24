@@ -8,7 +8,7 @@
  */
 char *_strtok(char *str, const char *delimit_)
 {
-    static char *begin, *endd_, *end2;
+    static char *w_start, *endd_, *end2;
     int word_found = 0;
     
     if(str == NULL)
