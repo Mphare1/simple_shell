@@ -14,12 +14,12 @@ size_t _strlen(char *s_c)
 	size_t c_char = 0;
 
 	if (x == NULL)
-		return c_char);
+		return c_char;
 
 	while (*x++ != '\0')
 		c_char++;
 
-	return (c_char);
+	return c_char;
 }
 
 /**
@@ -39,15 +39,16 @@ char *_strdup(char *s)
 
 	cpy = malloc(sizeof(char) * (length + 1));
 	if (!cpy)
-		return (NULL);
+		return NULL;
 
 	for (x = 0; s[x]; x++)
 		cpy[x] = s[x];
 
 	cpy[x] = '\0';
 
-	return (cpy);
+	return cpy;
 }
+
 /**
  * _strcmp - Compare two strings
  * @str1: The first string
@@ -60,14 +61,15 @@ int _strcmp(char *str1, char *str2)
 	for (; *str1 != '\0' && *str2 != '\0'; str1++, str2++)
 	{
 		if (*str1 != *str2)
-			return (1);
+			return 1;
 	}
 
 	if (*str1 == '\0' && *str2 == '\0')
-		return (0);
+		return 0;
 
-	return (1);
+	return 1;
 }
+
 
 
 
