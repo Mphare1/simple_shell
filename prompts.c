@@ -48,45 +48,27 @@ void p_commanderr(char *command, char *filename)
 
 	free(err_msg);
 }
-
 /**
-
-  * print_ps1 - prints the primary shell prompt
-
-  * @num: number that determines which errno value should be set
-
-  */
-
+ * print_ps1 - Print the PS1 prompt
+ * @num: Flag indicating the presence of an error
+ */
 void print_ps1(int num)
-
 {
+	char ppp[] = "MARSU$ ";
+	size_t length_ppp;
+	int o_err;
 
-	char ps1[] = "MARSU$ ";
+	o_err = errno;
+	length_ppp = _strlen(ppp);
 
-	size_t len_ps1;
-
-	int org_error;
-
-
-
-	org_error = errno;
-
-	len_ps1 = _strlen(ps1);
-
-	if (isatty(0))
-
-		write(STDOUT_FILENO, ps1, len_ps1);
+	if (isatty(STDIN_FILENO))
+		write(STDOUT_FILENO, ppp, length_ppp);
 
 	if (num == 0)
-
 		errno = 0;
-
 	else
-
-		errno = org_error;
-
+		errno = o_err;
 }
-
 
 
 /**
