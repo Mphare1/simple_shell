@@ -70,95 +70,51 @@ int _strcmp(char *str1, char *str2)
 	return 1;
 }
 
-
-
-
 /**
-
- * tokenize_str - function that take a string split them up at a delimiters and
-
- * add them into a array.
-
- * @str: string to process.
-
- * @delim: delimiter to split at.
-
+ * tokenize_str - Tokenize a string based on delimiters
+ * @str: The string to tokenize
+ * @delim: The delimiter string
  *
-
- * Return: pointer to pointers
-
+ * Return: Array of tokens, or NULL on failure
  */
-
 char **tokenize_str(char *str, char *delim)
-
 {
-
-	size_t n_delim = 0;
-
-	char *str_dup, *tok;
-
-	char **tokens;
-
-
+	size_t _delimit = 0;
+	char *cpyy, *tok;
+	char **_ttk;
 
 	if (!str || !delim)
+		return NULL;
 
-		return (NULL);
+	cpyy = _strdup(str);
 
-	str_dup = _strdup(str);
-
-
-
-	/* count the delimiters */
-
-	tok = _strtok(str_dup, delim);
-
+	/* Count the delimiters */
+	tok = _strtok(cpyy, delim);
 	while (tok)
-
 	{
-
-		n_delim++;
-
+		_delimit++;
 		tok = _strtok(NULL, delim);
-
 	}
 
-	/*free the str_dup*/
+	/* Free the cpyy */
+	free(cpyy);
 
-	free(str_dup);
+	/* Allocate memory for tokens based on _delimit + 1 for the NULL */
+	_ttk = malloc(sizeof(char *) * (_delimit + 1));
+	if (!_ttk)
+		return NULL;
 
-	/* malloc for tokens based on n_delim + 1 for the Null */
-
-	tokens = malloc(sizeof(char *) * (n_delim + 1));
-
-	if (!tokens)
-
-		return (NULL);
-
-
-
-	/* tokenize str */
-
+	/* Tokenize str */
 	tok = _strtok(str, delim);
-
-	n_delim = 0;
-
+	_delimit = 0;
 	while (tok)
-
 	{
-
-		tokens[n_delim] = tok;
-
+		_ttk[_delimit] = tok;
 		tok = _strtok(NULL, delim);
-
-		n_delim++;
-
+		_delimit++;
 	}
 
-	tokens[n_delim] = NULL;
+	_ttk[_delimit] = NULL;
 
-
-
-	return (tokens);
-
+	return _ttk;
 }
