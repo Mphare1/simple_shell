@@ -1,63 +1,69 @@
 #include "main.h"
 
 /**
-  * main - entry point for simple shell
-  * @argc: argument count
-  * @argv: argument vector
-  * @envp: argument environment
-  * Return: 0 on success
-  */
+ * main - Entry point of the program
+ * @argc: The number of command-line arguments
+ * @argv: An array of command-line arguments
+ * @envp: An array of environment variables
+ *
+ * Return: The exit status of the program
+ */
 int main(int argc, char *argv[], char *envp[])
 {
-	char **path_values, *modify_path, **input_token, *input;
+	char **val_, *md_path, **i_tkk, *_input;
 	char delimiter[] = " \n\r\t";
-	size_t n_input;
-	ssize_t getline_stat;
-	shell_t shell_ptrs;
+	size_t _inp2;
+	ssize_t l_stats;
+	shell_t shell_pts;
 
 	(void)argc;
-	input = NULL;
-	path_values = get_path(&modify_path);
+	_input = NULL;
+	val_ = get_path(&md_path);
 	print_ps1(0);
-	shell_ptrs.modify_path = modify_path;
-	shell_ptrs.path_values = path_values;
+	shell_pts.modify_path = md_path;
+	shell_pts.path_values = val_;
 	signal(SIGINT, SIG_IGN);
-	while ((getline_stat = getline(&input, &n_input, stdin)) != -1)
+	while ((l_stats = getline(&_input, &_inp2, stdin)) != -1)
 	{
-		shell_ptrs.input = input;
-		input_token = tokenize_str(input, delimiter);
-		shell_ptrs.input_token = input_token;
-		if (input_token[0] && check_slash(input_token[0]) == 1)
-			run_path(&shell_ptrs, argv[0]);
-		else if (input_token[0] && check_slash(input_token[0]) == 0)
+		shell_pts.input = _input;
+		i_tkk = tokenize_str(_input, delimiter);
+		shell_pts.input_token = i_tkk;
+		if (i_tkk[0] && check_slash(i_tkk[0]) == 1)
+			run_path(&shell_pts, argv[0]);
+		else if (i_tkk[0] && check_slash(i_tkk[0]) == 0)
 		{
-			if (run_build_in(&shell_ptrs, argv[0]) == 1)
-				run_command(&shell_ptrs, argv[0], envp);
+			if (run_build_in(&shell_pts, argv[0]) == 1)
+				run_command(&shell_pts, argv[0], envp);
 		}
-		free(input_token);
+		free(i_tkk);
 		print_ps1(1);
 	}
-	free(modify_path);
-	free(path_values);
-	free(input);
+	free(md_path);
+	free(val_);
+	free(_input);
 	return (errno);
 }
 
+
 /**
-  * check_slash - checks if there are any slashes in the command
-  * @str: input string
-  * Return: 1 if slash is found 0 if slash is not found
-  */
+ * check_slash - Check if a string contains a slash character ('/')
+ * @str: The input string
+ *
+ * Return: 1 if the string contains a slash, 0 otherwise
+ */
 int check_slash(char *str)
 {
-	while (*str != '\0')
+	int i;
+
+	for (i = 0; str[i] != '\0'; i++)
 	{
-		if (*str == '/')
+		if (str[i] == '/')
 			return (1);
-		str++;
 	}
+
 	return (0);
 }
+
 
 /**
   * run_command - runs the command given by the user
