@@ -43,7 +43,7 @@ char *_strtok(char *str, const char *delimiter)
 
 	{
 
-		for (int y = 0; delim != NULL && delimiter[y] != '\0'; y++)
+		for (int y = 0; delimiter != NULL && delimiter[y] != '\0'; y++)
 
 		{
 
