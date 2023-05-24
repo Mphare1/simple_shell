@@ -229,37 +229,26 @@ char *make_pathname(char *_path, char *_file)
 }
 
 /**
-
-  * _getenv - gets the value of the environment variable
-
-  * @name: variable to find
-
-  * Return: pointer to the value of the environment variable.
-
-  */
-
+ * _getenv - Get the value of an environment variable
+ * @name: The name of the environment variable
+ *
+ * Return: Pointer to the value of the environment variable, or NULL if not found
+ */
 char *_getenv(const char *name)
-
 {
+	unsigned int x = 0, y;
 
-	unsigned int i, j;
-
-
-
-	for (i = 0; environ[i] != NULL; i++)
-
+	while (environ[x] != NULL)
 	{
+		y = 0;
+		while (environ[x][y] != '=' && environ[x][y] == name[y] && name[y])
+			y++;
 
-		for (j = 0; environ[i][j] != '=' && environ[i][j] == name[j] && name[j]; j++)
+		if (environ[x][y] == '=' && name[y] == '\0')
+			return (&environ[x][++y]);
 
-			;
-
-		if (environ[i][j] == '=' && name[j] == '\0')
-
-			return (&environ[i][++j]);
-
+		x++;
 	}
 
 	return (NULL);
-
 }
