@@ -18,7 +18,7 @@ char *_strtok(char *str, const char *delimiter)
         str = end + 1;
     }
     else
-        end_str = str + strlen(str);
+        end_str = str + _strlen(str);
 
     for (int x = 0; str + x < end_str; x++)
     {
