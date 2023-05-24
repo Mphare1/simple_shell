@@ -136,104 +136,64 @@ char **get_path(char **modify_path)
 	return (token_ptr);
 }
 
-
-
 /**
-
-  * find_pathname - finds the pathname attached to the associated command
-
-  * @path: pointer to 2d array of tokenized directories in PATH
-
-  * @input: input to find
-
-  * Return: Path to the input file.
-
-  */
-
-char *find_pathname(char **path, char *input)
-
+ * find_pathname - Find the full pathname of a file in the given paths
+ * @folder: Array of paths to search for the file
+ * @input: Name of the file to find
+ *
+ * Return: Pointer to the full pathname of the file, or NULL if not found
+ */
+char *find_pathname(char **folder, char *input)
 {
-
 	unsigned int i;
-
 	DIR *directory;
-
 	struct dirent *filename;
-
-	int str_cmp, match_found;
-
+	int s_cmp, matched;
 	char *result;
 
-
-
 	filename = NULL;
+	matched = 0;
 
-	match_found = 0;
-
-	for (i = 0; path[i] != NULL; i++)
-
+	for (i = 0; folder[i] != NULL; i++)
 	{
-
-		directory = opendir(path[i]);
+		directory = opendir(folder[i]);
 
 		if (directory == NULL)
-
 		{
-
 			errno = EBADF;
-
 			return (NULL);
-
 		}
 
 		while ((filename = readdir(directory)) != NULL)
-
 		{
+			s_cmp = _strcmp(filename->d_name, input);
 
-			/* TODO make strcmp function */
-
-			str_cmp = _strcmp(filename->d_name, input);
-
-			if (str_cmp == 0)
-
+			if (s_cmp == 0)
 			{
-
-				match_found = 1;
-
+				matched = 1;
 				break;
-
 			}
-
 		}
 
-		if (match_found == 1)
-
+		if (matched == 1)
 			break;
 
 		closedir(directory);
-
 	}
 
-	if (match_found == 1)
-
+	if (matched == 1)
 	{
-
-		result = make_pathname(path[i], input);
+		result = make_pathname(folder[i], input);
 
 		if (access(result, R_OK) != -1)
-
 			errno = EACCES;
 
 		closedir(directory);
-
 		return (result);
-
 	}
 
 	errno = EBADF;
-
 	return (NULL);
-
 }
 
 
