@@ -195,59 +195,37 @@ char *find_pathname(char **folder, char *input)
 	errno = EBADF;
 	return (NULL);
 }
-
-
-
 /**
-
-  * make_pathname - takes result from path_name and creates a string.
-
-  * string contains the full pathname.
-
-  * @path: pathname
-
-  * @file: file in the path
-
-  * Return: pointer to an allocated string that contains the full pathname.
-
-  */
-
-char *make_pathname(char *path, char *file)
-
+ * make_pathname - Concatenate a path and a file to create a full pathname
+ * @_path: The path component
+ * @_file: The file component
+ *
+ * Return: Pointer to the concatenated pathname, or NULL on failure
+ */
+char *make_pathname(char *_path, char *_file)
 {
-
 	size_t num_path, num_file;
+	char *resull;
+	unsigned int x, y;
 
-	char *result;
+	num_path = _strlen(_path);
+	num_file = _strlen(_file);
 
-	unsigned int j, k;
-
-
-
-	num_path = _strlen(path);
-
-	num_file = _strlen(file);
-
-	result = malloc(sizeof(char) * (num_path + num_file + 2));
-
-	if (result == NULL)
-
+	resull = malloc(sizeof(char) * (num_path + num_file + 2));
+	if (resull == NULL)
 		return (NULL);
 
-	for (j = 0; j < num_path; j++)
+	for (x = 0; x < num_path; x++)
+		resull[x] = _path[x];
 
-		result[j] = path[j];
+	resull[x++] = '/';
 
-	result[j++] = '/';
+	for (y = 0; y < num_file; y++)
+		resull[x + y] = _file[y];
 
-	for (k = 0; k < num_file; k++)
+	resull[x + y] = '\0';
 
-		result[j + k] = file[k];
-
-	result[j + k] = '\0';
-
-	return (result);
-
+	return (resull);
 }
 
 /**
