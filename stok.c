@@ -3,49 +3,49 @@
 /**
  * _strtok - tokenizes a string
  * @str: string to tokenize
- * @delimiter: string that contains the delimiters
+ * @delim: string that contains the delimiters
  * Return: pointer to position in string of a null-terminated word.
  */
-char *_strtok(char *str, const char *delimiter)
+char *_strtok(char *str, const char *delim)
 {
-    static char *w_start, *end_str, *end;
+    static char *begin, *end_str, *end;
+    unsigned int i, j;
     int word_found = 0;
 
     if (str == NULL)
     {
-        if (w_start == NULL || end == NULL)
+        if (begin == NULL || end == NULL)
             return NULL;
         str = end + 1;
     }
     else
         end_str = str + _strlen(str);
 
-    for (int x = 0; str + x < end_str; x++)
+    for (i = 0; str + i < end_str; i++)
     {
-        int y;
-        for (y = 0; delimiter != NULL && delimiter[y] != '\0'; y++)
+        for (j = 0; delim != NULL && delim[j] != '\0'; j++)
         {
-            if (str[x] == delimiter[y])
+            if (str[i] == delim[j])
             {
                 if (word_found == 1)
                 {
-                    str[x] = '\0';
-                    end = str + x;
-                    return w_start;
+                    str[i] = '\0';
+                    end = str + i;
+                    return begin;
                 }
                 break;
             }
         }
-        if (delimiter[y] == '\0' && word_found == 0)
+        if (delim[j] == '\0' && word_found == 0)
         {
             word_found = 1;
-            w_start = str + x;
+            begin = str + i;
         }
     }
 
     end = NULL;
     if (word_found == 1)
-        return w_start;
+        return begin;
 
     return NULL;
 }
