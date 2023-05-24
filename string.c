@@ -54,18 +54,26 @@ char *_strdup(char *s)
  *
  * Return: 0 if the strings are equal, non-zero otherwise
  */
-int _strcmp(char *string1, char *string2)
+int _strcmp(char *str1, char *str2)
+
 {
-	for (; *string1 != '\0' && *string2 != '\0'; string1++, string2++)
+
+	while (*str1 != '\0' && *str2 != '\0')
+
 	{
-		if (*string1 != *string2)
+
+		if (*str1++ != *str2++)
+
 			return (1);
+
 	}
 
-	if (*string1 == '\0' && *string2 == '\0')
+	if (*str1 == '\0' && *str2 == '\0')
+
 		return (0);
 
 	return (1);
+
 }
 
 
