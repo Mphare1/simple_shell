@@ -26,18 +26,20 @@ void my_exit(shell_t *pts)
   */
 void print_env(shell_t *pts)
 {
-    unsigned int i, k;
-    char newline = '\n';
+    unsigned int x, y;
+    
+    char enld = '\n';
     (void)pts;
+    
     if(environ == NULL)
         return;
-    for(i = 0; environ[i] != NULL; i++)
+    for(x = 0; environ[x] != NULL; x++)
     {
-        k = _strlen(environ[i]);
-        if(k != 0)
+        y = _strlen(environ[x]);
+        if(y != 0)
         {
-            write(STDOUT_FILENO, environ[i], k);
-            write(STDOUT_FILENO, &newline, 1);
+            write(STDOUT_FILENO, environ[x], y);
+            write(STDOUT_FILENO, &enld, 1);
         }
     }
     errno = 0;
