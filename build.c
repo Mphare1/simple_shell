@@ -15,7 +15,7 @@ void my_exit(shell_t *pts)
         for(x = 0; exit_str[x] != '\0'; x++)
             errno = errno * 10 + (exit_str[x] - '0');
     }
-    free_shell_t(ptrs);
+    free_shell_t(pts);
     if(errno > 255)
         errno %= 256;
     exit(errno);
