@@ -55,13 +55,16 @@ void p_commanderr(char *command, char *filename)
 void print_ps1(int num)
 {
 	char ppp[] = "MARSU$ ";
+	
 	size_t length_ppp;
+	
 	int o_err;
 
 	o_err = errno;
 	length_ppp = _strlen(ppp);
 
 	if (isatty(STDIN_FILENO))
+		
 		write(STDOUT_FILENO, ppp, length_ppp);
 
 	if (num == 0)
@@ -72,101 +75,65 @@ void print_ps1(int num)
 
 
 /**
-
- * get_path - get the env path and tokenizes it into a array.
-
- * @modify_path: pointer to store modified path string into
-
+ * get_path - Get the PATH directories as tokens
+ * @_delimt: The delimiter to split the PATH string
+ * @modify_path: Pointer to store the modified PATH string
  *
-
- * Return: array / double pointer.
-
+ * Return: Pointer to the array of tokens
  */
-
 char **get_path(char **modify_path)
-
 {
-
 	char **token_ptr;
-
-	char *path, *delim;
-
+	char *path, *_delimt;
 	unsigned int i, j, num_char;
 
-
-
-	delim = ":";
-
+	_delimt = ":";
 	path = _getenv("PATH");
-
 	num_char = _strlen(path);
 
 	*modify_path = malloc(sizeof(char) * (num_char + 2));
-
 	if (num_char == 0)
-
 	{
-
 		(*modify_path)[0] = '.';
-
 		(*modify_path)[1] = '\0';
-
 	}
-
 	else
-
 	{
-
-		for (i = 0, j = 0; path[i] != '\0'; i++)
-
+		i = 0;
+		j = 0;
+		while (path[i] != '\0')
 		{
-
 			if (i == 0 && path[i] == ':')
-
 			{
-
 				(*modify_path)[j++] = '.';
-
 				(*modify_path)[j++] = path[i];
-
 			}
-
 			else if (i == num_char - 1 && path[i] == ':')
-
 			{
-
 				(*modify_path)[j++] = path[i];
-
 				(*modify_path)[j++] = '.';
-
 			}
-
 			else if (path[i] == ':' && path[i + 1] == ':')
-
 			{
-
 				(*modify_path)[j++] = path[i];
-
 				(*modify_path)[j++] = '.';
-
 			}
-
 			else
-
+			{
 				(*modify_path)[j++] = path[i];
-
+			}
+			i++;
 		}
 
-		for (; j < num_char + 2; j++)
-
-			(*modify_path)[j] = '\0';
-
+		while (j < num_char + 2)
+		{
+			(*modify_path)[j++] = '\0';
+		}
 	}
 
-	token_ptr = tokenize_str(*modify_path, delim);
+	token_ptr = tokenize_str(*modify_path, _delimt);
 
 	return (token_ptr);
-
 }
 
 
