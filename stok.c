@@ -12,42 +12,46 @@ char *_strtok(char *str, const char *delimit_)
 {
     unsigned int x, y;
     static char *w_start, *endd_, *end2;
-    bool word_found = false;
-
-    if (str == NULL)
+    bool got_it = false;
+    
+    if(str == NULL)
     {
-        if (w_start == NULL || end2 == NULL)
+        if(w_start == NULL || end2 == NULL)
             return NULL;
+        
         str = end2 + 1;
     }
     else
         endd_ = str + _strlen(str);
-
-    for (x = 0; str + x < endd_; x++)
+        
+    for(x = 0; str + x < endd_; x++)
     {
-        for (y = 0; delimit_ != NULL && delimit_[y] != '\0'; y++)
+        for(y = 0; delimit_ != NULL && delimit_[y] != '\0'; y++)
         {
-            if (str[x] == delimit_[y])
+            if(str[x] == delimit_[y])
             {
-                if (word_found)
+                if(got_it)
                 {
                     str[x] = '\0';
                     end2 = str + x;
                     return w_start;
+                    
                 }
                 break;
             }
         }
-        if (delimit_[y] == '\0' && !word_found)
+        if(delimit_[y] == '\0' && !got_it)
         {
-            word_found = true;
+            got_it = true;
             w_start = str + x;
         }
     }
-
+    
     end2 = NULL;
-    if (word_found)
+    
+    if(got_it)
+        
         return w_start;
-
+        
     return NULL;
 }
